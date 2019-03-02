@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang=”en”>
+
+<head>
+ 
+ <meta charset=”UTF-8">
+ <meta name=”viewport” content=”width=device-width, initial-scale=1.0">
+ <meta http-equiv=”X-UA-Compatible” content=”ie=edge”>
+ 
+ <title>Document</title>
+	<link rel=”stylesheet” type=”text/css” href=”style.css”>
+	<script src=”./node_modules/web3/dist/web3.min.js”></script>
+</head>
+
+<body>
+	<div class=”container”>
+		<h1>Hash Block</h1>
+		<h2 id=”ContractAddress”></h2>
+		<label class=”col-lg-2 control-label”>Input Hash</label>
+ 		<input id=”input_hash” type=”number”>
+		<label class=”col-lg-2 control-label”>Hash Value on Blockchain</label>
+ 		<p id="hash_value"></p>
+<button id=”button”>Update Hash</button>
+	</div>
+
+<script src=”https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+<script>
+ 	if (typeof web3 !== ‘undefined’) 
+	{
+		console.log("using MetaMask...");
+	 	web3 = new Web3(web3.currentProvider);
+	} 
+	
+	else 
+	{
+		console.log("using localhost as provider...");
+		web3 = new Web3(new Web3.providers.HttpProvider(“http://localhost:8545”));
+	}
+
+	web3.eth.defaultAccount = web3.eth.accounts[11];
+
+	var HashContract = web3.eth.contract(
+	[
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"name": "_hash",
+					"type": "uint256"
+				}
+			],
+			"name": "uploadhash",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "get",
+			"outputs": [
+				{
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "hash",
+			"outputs": [
+				{
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		}
+	]);
+
+	var HashBlock = HashContract.at('0x65e7667eae7580dd88729ff571e146f171201e9f');
+
+	$(“#button”).click(function() {
+ 		HashBlock.uploadhash($(“#input_hash”).val());
+	});
+
+	HashBlock.get(function(error, result){
+	  if(!error){
+	    $(“#hash_value”).html(result[0]);
+	    console.log(result);
+	    }
+	 else
+	   	console.error(error);
+	 });
+</script>
+
+</body>
+</html>
