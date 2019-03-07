@@ -1,16 +1,26 @@
 pragma solidity ^0.5.0;
 
-contract HashBlock											//contract name, case sensitive
+contract HashBlock
 {
-	//address public Owner;
+	address public OwnerAddress = msg.sender;
 	uint public hash;
 
-	function uploadhash(uint _hash) public					//case sensitive
+	modifier OnlyOwner {
+		if(msg.sender == OwnerAddress)_;
+	}
+
+	function ChangeOwner(address _newOwner) public OnlyOwner
 	{
-		hash = _hash;										//Assign the hash
+		if(_newOwner == address(0))revert("The new address is null.");
+		OwnerAddress = _newOwner;
+	}
+
+	function UploadHash(uint _hash) public
+	{
+		hash = _hash;
 	}
 	
-	function get() view public returns (uint) {				//get(), return the value
-        return hash;
+	function Get() view public returns (uint) {
+		return hash;
     }
 }
