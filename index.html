@@ -121,7 +121,7 @@
 	document.getElementById("address").innerHTML = ContractAddress;
 	document.getElementById("acc").innerHTML = AccountAddress[1];
 
-	document.getElementById("button").onclick = TheContract.methods.UploadHash(100);
+	document.getElementById("button").onclick = console.log("Function is running").then(TheContract.methods.UploadHash(100));
 </script>
 
 </body>
