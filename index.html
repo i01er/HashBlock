@@ -25,7 +25,7 @@
 	<label>Account Address</label>
 	<label id="acc">0x0</label>
 
-	<!-- <button id=”button”>Update Instructor</button> -->
+	<button id=”button”>Update Hash</button>
 </div>
 
 <script>
@@ -41,91 +41,87 @@
 		//web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 		console.log("Error: No MetaMask");
 	 }
-
 	web3.eth.defaultAccount = web3.eth.accounts[0];
-
 	var AccountAddress = web3.eth.getAccounts();
-
 	var TheContract = new web3.eth.Contract(
-[
-	{
-		"constant": false,
-		"inputs": [
+		[
 			{
-				"name": "_newOwner",
-				"type": "address"
-			}
-		],
-		"name": "ChangeOwner",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
+				"constant": false,
+				"inputs": [
+					{
+						"name": "_newOwner",
+						"type": "address"
+					}
+				],
+				"name": "ChangeOwner",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
 			{
-				"name": "_hash",
-				"type": "uint256"
-			}
-		],
-		"name": "UploadHash",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "Get",
-		"outputs": [
+				"constant": false,
+				"inputs": [
+					{
+						"name": "_hash",
+						"type": "uint256"
+					}
+				],
+				"name": "UploadHash",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
 			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "hash",
-		"outputs": [
+				"constant": true,
+				"inputs": [],
+				"name": "Get",
+				"outputs": [
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
 			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "OwnerAddress",
-		"outputs": [
+				"constant": true,
+				"inputs": [],
+				"name": "hash",
+				"outputs": [
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
 			{
-				"name": "",
-				"type": "address"
+				"constant": true,
+				"inputs": [],
+				"name": "OwnerAddress",
+				"outputs": [
+					{
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
 			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	}
-]);
-
+		]);
 	TheContract.options.address = '0x50f4d4bdea1f6e52d959bbdfff4584ddaa7d29d2';
-
 	var ContractAddress = TheContract.options.address;
-
 	document.getElementById("address").innerHTML = ContractAddress;
 	document.getElementById("acc").innerHTML = AccountAddress[1];
+
+	document.getElementById("button").onclick = TheContract.method.UploadHash(100);
 </script>
 
 </body>
